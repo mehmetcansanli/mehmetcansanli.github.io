@@ -1,2 +1,60 @@
 # mehmetcansanli.github.io
 hi world
+<!DOCTYPE html>
+<div class="container">
+  <h2>What's for Dinner?</h2>
+
+  <p>Hunger Level</p>
+  <button onclick="setHunger('H')">High</button>
+  <button onclick="setHunger('M')">Medium</button>
+  <button onclick="setHunger('L')">Low</button>
+
+  <p>Time</p>
+  <button onclick="setTime('S')">Short</button>
+  <button onclick="setTime('E')">Enough</button>
+
+  <p>Budget</p>
+  <button onclick="setBudget('HB')">High</button>
+  <button onclick="setBudget('LB')">Low</button>
+
+  <br><br>
+  <button onclick="recommend()">Get Recommendation</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+let hunger = '';
+let time = '';
+let budget = '';
+
+function setHunger(h) { hunger = h; }
+function setTime(t) { time = t; }
+function setBudget(b) { budget = b; }
+
+function recommend() {
+  let result = '';
+
+  if (hunger === 'H' && time === 'S' && budget === 'HB') result = 'Gourmet Sandwich';
+  else if (hunger === 'H' && time === 'S' && budget === 'LB') result = 'Instant Noodles';
+  else if (hunger === 'H' && time === 'E' && budget === 'HB') result = 'Steak';
+  else if (hunger === 'H' && time === 'E' && budget === 'LB') result = 'Pasta';
+
+  else if (hunger === 'M' && time === 'S' && budget === 'HB') result = 'Wrap';
+  else if (hunger === 'M' && time === 'S' && budget === 'LB') result = 'Toast';
+  else if (hunger === 'M' && time === 'E' && budget === 'HB') result = 'Chicken Meal';
+  else if (hunger === 'M' && time === 'E' && budget === 'LB') result = 'Soup';
+
+  else if (hunger === 'L' && time === 'S' && budget === 'HB') result = 'Smoothie';
+  else if (hunger === 'L' && time === 'S' && budget === 'LB') result = 'Fruit';
+  else if (hunger === 'L' && time === 'E' && budget === 'HB') result = 'Salad Bowl';
+  else if (hunger === 'L' && time === 'E' && budget === 'LB') result = 'Yogurt';
+
+  else result = 'Please select all options';
+
+  document.getElementById('result').innerText = result;
+}
+</script>
+
+</body>
+</html>
