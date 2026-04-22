@@ -1,58 +1,255 @@
 <!DOCTYPE html>
-<div class="container">
-  <h2>What's for Dinner?</h2>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation App</title>
+    <style>
+        /* DESIGN LANGUAGE: SWISS STYLE (International Typographic Style)
+           - Typography-driven hierarchy
+           - Strict adherence to grid
+           - High contrast, minimalistic colors (Black, White, Swiss Red)
+           - No gradients, borders, or shadows. Form follows function.
+        */
+        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
-  <p>Hunger Level</p>
-  <button onclick="setHunger('H')">High</button>
-  <button onclick="setHunger('M')">Medium</button>
-  <button onclick="setHunger('L')">Low</button>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+        }
 
-  <p>Time</p>
-  <button onclick="setTime('S')">Short</button>
-  <button onclick="setTime('E')">Enough</button>
+        body {
+            background-color: #ffffff; /* Pure white background */
+            color: #000000; /* High contrast black text */
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
 
-  <p>Budget</p>
-  <button onclick="setBudget('HB')">High</button>
-  <button onclick="setBudget('LB')">Low</button>
+        #app-container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
 
-  <br><br>
-  <button onclick="recommend()">Get Recommendation</button>
+        header h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            margin-bottom: 10px;
+        }
 
-  <div id="result"></div>
-</div>
+        header p {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #555555;
+        }
 
-<script>
-let hunger = '';
-let time = '';
-let budget = '';
+        /* Content Area */
+        #content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
 
-function setHunger(h) { hunger = h; }
-function setTime(t) { time = t; }
-function setBudget(b) { budget = b; }
+        .question {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
 
-function recommend() {
-  let result = '';
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
 
-  if (hunger === 'H' && time === 'S' && budget === 'HB') result = 'Gourmet Sandwich';
-  else if (hunger === 'H' && time === 'S' && budget === 'LB') result = 'Instant Noodles';
-  else if (hunger === 'H' && time === 'E' && budget === 'HB') result = 'Steak';
-  else if (hunger === 'H' && time === 'E' && budget === 'LB') result = 'Pasta';
+        button {
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 24px 32px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            text-transform: uppercase;
+            transition: background-color 0.2s ease;
+        }
 
-  else if (hunger === 'M' && time === 'S' && budget === 'HB') result = 'Wrap';
-  else if (hunger === 'M' && time === 'S' && budget === 'LB') result = 'Toast';
-  else if (hunger === 'M' && time === 'E' && budget === 'HB') result = 'Chicken Meal';
-  else if (hunger === 'M' && time === 'E' && budget === 'LB') result = 'Soup';
+        button:hover {
+            background-color: #E00000; /* Bold Swiss Red Accent */
+        }
 
-  else if (hunger === 'L' && time === 'S' && budget === 'HB') result = 'Smoothie';
-  else if (hunger === 'L' && time === 'S' && budget === 'LB') result = 'Fruit';
-  else if (hunger === 'L' && time === 'E' && budget === 'HB') result = 'Salad Bowl';
-  else if (hunger === 'L' && time === 'E' && budget === 'LB') result = 'Yogurt';
+        /* Result Node Styles */
+        .result-container {
+            background-color: #E00000;
+            color: #ffffff;
+            padding: 60px 40px;
+            display: grid;
+            gap: 20px;
+        }
 
-  else result = 'Please select all options';
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
-  document.getElementById('result').innerText = result;
-}
-</script>
+        .result-value {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+        }
 
+        button.restart-btn {
+            background-color: #ffffff;
+            color: #000000;
+            margin-top: 20px;
+            justify-self: start;
+        }
+
+        button.restart-btn:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <header>
+            <h1>Discover</h1>
+            <p>Select an option below to proceed.</p>
+        </header>
+
+        <main id="content">
+            </main>
+    </div>
+
+    <script>
+        /**
+         * LOGIC STRINGS & MERMAID FLOWCHART IMPLEMENTATION
+         * ------------------------------------------------
+         * NOTE: Replace the `logicFlow` object below with the exact nodes 
+         * and recommendations mapped from your logic and Mermaid flowchart.
+         */
+        
+        const logicFlow = {
+            // --- PLACEHOLDER LOGIC ---
+            // Replace these objects with your exact logic steps.
+            start: {
+                type: 'question',
+                text: 'Are you looking for something creative or analytical?',
+                options: [
+                    { label: 'Creative', nextNode: 'creative_path' },
+                    { label: 'Analytical', nextNode: 'analytical_path' }
+                ]
+            },
+            creative_path: {
+                type: 'question',
+                text: 'Do you prefer visual arts or writing?',
+                options: [
+                    { label: 'Visual Arts', nextNode: 'rec_design' },
+                    { label: 'Writing', nextNode: 'rec_copywriting' }
+                ]
+            },
+            analytical_path: {
+                type: 'question',
+                text: 'Do you prefer working with numbers or code?',
+                options: [
+                    { label: 'Numbers', nextNode: 'rec_data' },
+                    { label: 'Code', nextNode: 'rec_dev' }
+                ]
+            },
+            // --- RECOMMENDATION NODES ---
+            rec_design: {
+                type: 'result',
+                text: 'Graphic Designer'
+            },
+            rec_copywriting: {
+                type: 'result',
+                text: 'Content Strategist'
+            },
+            rec_data: {
+                type: 'result',
+                text: 'Data Analyst'
+            },
+            rec_dev: {
+                type: 'result',
+                text: 'Software Engineer'
+            }
+        };
+
+        // DOM Elements
+        const contentDiv = document.getElementById('content');
+
+        // Render Engine
+        function renderNode(nodeId) {
+            const node = logicFlow[nodeId];
+            contentDiv.innerHTML = ''; // Clear current content
+
+            if (!node) {
+                console.error("Node not found:", nodeId);
+                return;
+            }
+
+            if (node.type === 'question') {
+                // Render Question
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.innerText = node.text;
+
+                const btnGroup = document.createElement('div');
+                btnGroup.className = 'btn-group';
+
+                node.options.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.innerText = option.label;
+                    btn.onclick = () => renderNode(option.nextNode);
+                    btnGroup.appendChild(btn);
+                });
+
+                contentDiv.appendChild(questionEl);
+                contentDiv.appendChild(btnGroup);
+
+            } else if (node.type === 'result') {
+                // Render Recommendation
+                const resultContainer = document.createElement('div');
+                resultContainer.className = 'result-container';
+
+                const resultTitle = document.createElement('div');
+                resultTitle.className = 'result-title';
+                resultTitle.innerText = 'Your Recommendation:';
+
+                const resultValue = document.createElement('div');
+                resultValue.className = 'result-value';
+                resultValue.innerText = node.text;
+
+                const restartBtn = document.createElement('button');
+                restartBtn.className = 'restart-btn';
+                restartBtn.innerText = 'Start Over';
+                restartBtn.onclick = () => renderNode('start');
+
+                resultContainer.appendChild(resultTitle);
+                resultContainer.appendChild(resultValue);
+                resultContainer.appendChild(restartBtn);
+
+                contentDiv.appendChild(resultContainer);
+            }
+        }
+
+        // Initialize Application
+        renderNode('start');
+    </script>
 </body>
 </html>
