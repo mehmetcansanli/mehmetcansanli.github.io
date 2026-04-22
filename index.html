@@ -80,38 +80,39 @@
         <button id="backBtn" onclick="goBack()" class="hidden absolute top-6 left-6 md:top-12 md:left-12 border-2 border-black bg-white text-black hover:bg-black hover:text-white px-3 py-1.5 font-bold uppercase tracking-tight text-xs md:text-sm flex items-center gap-1 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Gerİ
         </button>
+
         <!-- Header -->
         <header class="mt-16 mb-12 swiss-border-bottom pb-6">
             <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
-                Akşam<br>Yemeğİnde<br><span class="text-[#e60000]">Ne Var?</span>
+                Akşam<br>Yemeğinde<br><span class="text-[#e60000]">Ne Var?</span>
             </h1>
             <p class="mt-6 text-xl md:text-2xl font-normal text-gray-600 tracking-wide">
                 Sizin için en mükemmel yemeği bulalım!
             </p>
-        </header>
+        </header>   
 
         <!-- Step 1: Hunger Level -->
         <div id="step1" class="space-y-6 animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Açlık Sevİyenİz Nedİr?</h2>
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">1. Açlık Seviyesi</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button type="button" onclick="selectOption(1, 'hunger', 'High')" class="swiss-toggle w-full">Yüksek Açlık</button>
-                <button type="button" onclick="selectOption(1, 'hunger', 'Medium')" class="swiss-toggle w-full">Orta Açlık</button>
-                <button type="button" onclick="selectOption(1, 'hunger', 'Low')" class="swiss-toggle w-full">Düşük Açlık</button>
+                <button type="button" onclick="selectOption(1, 'hunger', 'High')" class="swiss-toggle w-full">Yüksek</button>
+                <button type="button" onclick="selectOption(1, 'hunger', 'Medium')" class="swiss-toggle w-full">Orta</button>
+                <button type="button" onclick="selectOption(1, 'hunger', 'Low')" class="swiss-toggle w-full">Düşük</button>
             </div>
         </div>
 
         <!-- Step 2: Time Available -->
         <div id="step2" class="space-y-6 hidden animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Zamanınız Var?</h2>
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">2. Zaman</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterlİ Zaman</button>
                 <button type="button" onclick="selectOption(2, 'time', 'Short')" class="swiss-toggle w-full">Kısıtlı Zaman</button>
+                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterli Zaman</button>
             </div>
         </div>
 
         <!-- Step 3: Budget -->
         <div id="step3" class="space-y-6 hidden animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Bütçenİz Var?</h2>
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">3. Bütçe</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button type="button" onclick="selectOption(3, 'budget', 'High')" class="swiss-toggle w-full">Yüksek Bütçe</button>
                 <button type="button" onclick="selectOption(3, 'budget', 'Low')" class="swiss-toggle w-full">Düşük Bütçe</button>
@@ -121,7 +122,7 @@
         <!-- Result Area (Step 4) -->
         <div id="step4" class="hidden animate-fade-in mt-4 pt-4 border-t-4 border-black swiss-border-bottom">
             <h2 class="text-xl font-bold uppercase mb-2 tracking-tight text-gray-500">İşte Sİzİn İçİn Önerİmİz!</h2>
-            <div id="resultText" class="text-5xl md:text-7xl font-black uppercase tracking-tighter text-[#e60000] leading-none break-words mb-8">
+            <div id="resultText" class="text-5xl md:text-7xl font-black uppercase tracking-normal text-[#e60000] leading-none break-words mb-8 ![font-variant-ligatures:none]">
                 <!-- Result will be injected here -->
             </div>
             <button type="button" onclick="restart()" class="swiss-toggle bg-black text-white hover:bg-gray-800 w-full py-4 text-2xl border-black">
@@ -132,24 +133,27 @@
     </main>
 
     <script>
-        // The Decision Matrix (Çıktılar Türkçeye çevrildi)
+        // The Decision Matrix (Çıktılar Türkçeye çevrildi ve güncellendi)
         const decisionMatrix = {
-            "High-Short-High": "Gurme Sandvİç",
+            "High-Short-High": "Gurme Sandviç",
             "High-Short-Low": "Hazır Noodle",
-            "High-Enough-High": "Bİftek",
-            "High-Enough-Low": "Menemen",
+            "High-Enough-High": "Biftek",
+            "High-Enough-Low": "Bol Malzemeli Menemen", // Makarna yerine mantıklı ve farklı bir düşük bütçe önerisi
             "Medium-Short-High": "Dürüm",
             "Medium-Short-Low": "Tost",
-            "Medium-Enough-High": "Tavuk Yemeğİ",
+            "Medium-Enough-High": "Tavuk Yemeği",
             "Medium-Enough-Low": "Çorba",
-            "Low-Short-High": "Smoothİe",
+            "Low-Short-High": "Smoothie",
             "Low-Short-Low": "Meyve",
-            "Low-Enough-High": "Salata Kasesİ",
+            "Low-Enough-High": "Salata Kasesi",
             "Low-Enough-Low": "Yoğurt"
         };
 
         // Kullanıcı cevaplarını tutacağımız obje
         let answers = { hunger: '', time: '', budget: '' };
+
+        // Hangi adımda olduğumuzu takip etmek için değişken
+        let currentStep = 1;
 
         function selectOption(step, category, value) {
             // Cevabı kaydet
@@ -160,10 +164,13 @@
 
             // Bir sonraki adımı göster veya sonucu hesapla
             if (step < 3) {
-                document.getElementById(`step${step + 1}`).classList.remove('hidden');
+                currentStep = step + 1;
+                document.getElementById(`step${currentStep}`).classList.remove('hidden');
             } else {
+                currentStep = 4;
                 showResult();
             }
+            updateBackButton();
         }
 
         function showResult() {
@@ -178,11 +185,35 @@
             }
         }
 
+        function goBack() {
+            if (currentStep > 1) {
+                // Mevcut adımı gizle
+                document.getElementById(`step${currentStep}`).classList.add('hidden');
+                // Önceki adıma dön
+                currentStep--;
+                document.getElementById(`step${currentStep}`).classList.remove('hidden');
+                
+                updateBackButton();
+            }
+        }
+
+        function updateBackButton() {
+            const backBtn = document.getElementById('backBtn');
+            // 2. ve 3. adımlarda geri butonunu göster, 1. ve 4. (sonuç) adımda gizle
+            if (currentStep > 1 && currentStep < 4) {
+                backBtn.classList.remove('hidden');
+            } else {
+                backBtn.classList.add('hidden');
+            }
+        }
+
         function restart() {
             // Değerleri sıfırla ve başa dön
             answers = { hunger: '', time: '', budget: '' };
+            currentStep = 1;
             document.getElementById('step4').classList.add('hidden');
             document.getElementById('step1').classList.remove('hidden');
+            updateBackButton();
         }
     </script>
 </body>
