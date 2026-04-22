@@ -1,116 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>What's for Dinner?</title>
-<style>
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
-  color: #000000;
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  margin: 0;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's for Dinner?</title>
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for that clean, Swiss-style sans-serif look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Swiss Style Enhancements */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4; /* Off-white for slight contrast with white containers */
+            color: #000;
+        }
 
-.container {
-  display: grid;
-  gap: 20px;
-  width: 300px;
-}
+        /* Hide radio buttons natively, we will style their associated labels */
+        input[type="radio"] {
+            display: none;
+        }
 
-h1 {
-  font-size: 20px;
-  text-align: center;
-}
+        /* Styling the label as a stark, clickable block */
+        .swiss-toggle {
+            display: block;
+            border: 3px solid #000;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
 
-.section {
-  display: grid;
-  gap: 10px;
-}
+        .swiss-toggle:hover {
+            background-color: #e5e5e5;
+        }
 
-button {
-  padding: 10px;
-  border: 1px solid #000;
-  background: #fff;
-  cursor: pointer;
-}
+        /* When the hidden radio is checked, invert the colors of the adjacent label */
+        input[type="radio"]:checked + .swiss-toggle {
+            background-color: #000;
+            color: #fff;
+        }
 
-button:hover {
-  background: #eee;
-}
+        .swiss-button {
+            border: none;
+            background-color: #e60000; /* Strong primary red */
+            color: white;
+            transition: background-color 0.2s ease;
+        }
 
-#result {
-  border-top: 1px solid #000;
-  padding-top: 10px;
-  text-align: center;
-  font-weight: bold;
-}
-</style>
+        .swiss-button:hover {
+            background-color: #b30000;
+        }
+
+        .swiss-border-bottom {
+            border-bottom: 4px solid #000;
+        }
+
+        /* Adım geçişleri için ufak bir animasyon */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+    </style>
 </head>
+<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
 
-<body>
+    <main class="w-full max-w-4xl bg-white p-6 md:p-12 border-4 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+        
+        <!-- Header -->
+        <header class="mb-12 swiss-border-bottom pb-6">
+            <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+                Akşam<br>Yemeğinde<br><span class="text-[#e60000]">Ne Var?</span>
+            </h1>
+            <p class="mt-6 text-xl md:text-2xl font-normal text-gray-600 tracking-wide">
+                Sizin için en mükemmel yemeği bulalım!
+            </p>
+        </header>
 
-<div class="container">
-  <h1>What's for Dinner?</h1>
+        <!-- Step 1: Hunger Level -->
+        <div id="step1" class="space-y-6 animate-fade-in">
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Açlık Seviyesiniz Nedir?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button type="button" onclick="selectOption(1, 'hunger', 'High')" class="swiss-toggle w-full">Yüksek Açlık</button>
+                <button type="button" onclick="selectOption(1, 'hunger', 'Medium')" class="swiss-toggle w-full">Orta Açlık</button>
+                <button type="button" onclick="selectOption(1, 'hunger', 'Low')" class="swiss-toggle w-full">Düşük Açlık</button>
+            </div>
+        </div>
 
-  <div class="section">
-    <div>Hunger Level</div>
-    <button onclick="setHunger('H')">High</button>
-    <button onclick="setHunger('M')">Medium</button>
-    <button onclick="setHunger('L')">Low</button>
-  </div>
+        <!-- Step 2: Time Available -->
+        <div id="step2" class="space-y-6 hidden animate-fade-in">
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Zamanınız Var?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button type="button" onclick="selectOption(2, 'time', 'Short')" class="swiss-toggle w-full">Kısıtlı Zaman</button>
+                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterli Zaman</button>
+            </div>
+        </div>
 
-  <div class="section">
-    <div>Time Available</div>
-    <button onclick="setTime('S')">Short</button>
-    <button onclick="setTime('E')">Enough</button>
-  </div>
+        <!-- Step 3: Budget -->
+        <div id="step3" class="space-y-6 hidden animate-fade-in">
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Bütçeniz Var?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button type="button" onclick="selectOption(3, 'budget', 'High')" class="swiss-toggle w-full">Yüksek Bütçe</button>
+                <button type="button" onclick="selectOption(3, 'budget', 'Low')" class="swiss-toggle w-full">Düşük Bütçe</button>
+            </div>
+        </div>
 
-  <div class="section">
-    <div>Budget</div>
-    <button onclick="setBudget('HB')">High</button>
-    <button onclick="setBudget('LB')">Low</button>
-  </div>
+        <!-- Result Area (Step 4) -->
+        <div id="step4" class="hidden animate-fade-in mt-4 pt-4 border-t-4 border-black swiss-border-bottom">
+            <h2 class="text-xl font-bold uppercase mb-2 tracking-tight text-gray-500">İşte Sizin İçin Önerimiz!</h2>
+            <div id="resultText" class="text-5xl md:text-7xl font-black uppercase tracking-tighter text-[#e60000] leading-none break-words mb-8">
+                <!-- Result will be injected here -->
+            </div>
+            <button type="button" onclick="restart()" class="swiss-toggle bg-black text-white hover:bg-gray-800 w-full py-4 text-2xl border-black">
+                Baştan Başla
+            </button>
+        </div>
 
-  <button onclick="recommend()">Get Recommendation</button>
+    </main>
 
-  <div id="result"></div>
-</div>
+    <script>
+        // The Decision Matrix (Çıktılar Türkçeye çevrildi)
+        const decisionMatrix = {
+            "High-Short-High": "Gurme Sandviç",
+            "High-Short-Low": "Hazır Noodle",
+            "High-Enough-High": "Biftek",
+            "High-Enough-Low": "Makarna",
+            "Medium-Short-High": "Dürüm",
+            "Medium-Short-Low": "Tost",
+            "Medium-Enough-High": "Tavuk Yemeği",
+            "Medium-Enough-Low": "Çorba",
+            "Low-Short-High": "Smoothie",
+            "Low-Short-Low": "Meyve",
+            "Low-Enough-High": "Salata Kasesi",
+            "Low-Enough-Low": "Yoğurt"
+        };
 
-<script>
-let hunger = '';
-let time = '';
-let budget = '';
+        // Kullanıcı cevaplarını tutacağımız obje
+        let answers = { hunger: '', time: '', budget: '' };
 
-function setHunger(h) { hunger = h; }
-function setTime(t) { time = t; }
-function setBudget(b) { budget = b; }
+        function selectOption(step, category, value) {
+            // Cevabı kaydet
+            answers[category] = value;
 
-function recommend() {
-  let result = '';
+            // Mevcut adımı gizle
+            document.getElementById(`step${step}`).classList.add('hidden');
 
-  if (hunger === 'H' && time === 'S' && budget === 'HB') result = 'Gourmet Sandwich';
-  else if (hunger === 'H' && time === 'S' && budget === 'LB') result = 'Instant Noodles';
-  else if (hunger === 'H' && time === 'E' && budget === 'HB') result = 'Steak';
-  else if (hunger === 'H' && time === 'E' && budget === 'LB') result = 'Pasta';
+            // Bir sonraki adımı göster veya sonucu hesapla
+            if (step < 3) {
+                document.getElementById(`step${step + 1}`).classList.remove('hidden');
+            } else {
+                showResult();
+            }
+        }
 
-  else if (hunger === 'M' && time === 'S' && budget === 'HB') result = 'Wrap';
-  else if (hunger === 'M' && time === 'S' && budget === 'LB') result = 'Toast';
-  else if (hunger === 'M' && time === 'E' && budget === 'HB') result = 'Chicken Meal';
-  else if (hunger === 'M' && time === 'E' && budget === 'LB') result = 'Soup';
+        function showResult() {
+            // Matrix için anahtar oluştur
+            const lookupKey = `${answers.hunger}-${answers.time}-${answers.budget}`;
+            const recommendation = decisionMatrix[lookupKey];
 
-  else if (hunger === 'L' && time === 'S' && budget === 'HB') result = 'Smoothie';
-  else if (hunger === 'L' && time === 'S' && budget === 'LB') result = 'Fruit';
-  else if (hunger === 'L' && time === 'E' && budget === 'HB') result = 'Salad Bowl';
-  else if (hunger === 'L' && time === 'E' && budget === 'LB') result = 'Yogurt';
+            // Sonucu göster
+            if (recommendation) {
+                document.getElementById('resultText').innerText = recommendation;
+                document.getElementById('step4').classList.remove('hidden');
+            }
+        }
 
-  else result = 'Please select all options';
-
-  document.getElementById('result').innerText = result;
-}
-</script>
-
+        function restart() {
+            // Değerleri sıfırla ve başa dön
+            answers = { hunger: '', time: '', budget: '' };
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
