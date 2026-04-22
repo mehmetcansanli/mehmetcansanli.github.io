@@ -74,10 +74,14 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 md:p-8">
 
-    <main class="w-full max-w-4xl bg-white p-6 md:p-12 border-4 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+    <main class="w-full max-w-4xl bg-white p-6 md:p-12 border-4 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] relative">
         
+        <!-- Geri Butonu -->
+        <button id="backBtn" onclick="goBack()" class="hidden absolute top-6 left-6 md:top-12 md:left-12 border-2 border-black bg-white text-black hover:bg-black hover:text-white px-3 py-1.5 font-bold uppercase tracking-tight text-xs md:text-sm flex items-center gap-1 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Gerİ
+        </button>
         <!-- Header -->
-        <header class="mb-12 swiss-border-bottom pb-6">
+        <header class="mt-16 mb-12 swiss-border-bottom pb-6">
             <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
                 Akşam<br>Yemeğİnde<br><span class="text-[#e60000]">Ne Var?</span>
             </h1>
