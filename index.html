@@ -79,7 +79,7 @@
         <!-- Header -->
         <header class="mb-12 swiss-border-bottom pb-6">
             <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
-                Akşam<br>Yemeğinde<br><span class="text-[#e60000]">Ne Var?</span>
+                Akşam<br>Yemeğİnde<br><span class="text-[#e60000]">Ne Var?</span>
             </h1>
             <p class="mt-6 text-xl md:text-2xl font-normal text-gray-600 tracking-wide">
                 Sizin için en mükemmel yemeği bulalım!
@@ -88,7 +88,7 @@
 
         <!-- Step 1: Hunger Level -->
         <div id="step1" class="space-y-6 animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Açlık Seviyesiniz Nedir?</h2>
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Açlık Sevİyenİz Nedİr?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button type="button" onclick="selectOption(1, 'hunger', 'High')" class="swiss-toggle w-full">Yüksek Açlık</button>
                 <button type="button" onclick="selectOption(1, 'hunger', 'Medium')" class="swiss-toggle w-full">Orta Açlık</button>
@@ -100,14 +100,14 @@
         <div id="step2" class="space-y-6 hidden animate-fade-in">
             <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Zamanınız Var?</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterlİ Zaman</button>
                 <button type="button" onclick="selectOption(2, 'time', 'Short')" class="swiss-toggle w-full">Kısıtlı Zaman</button>
-                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterli Zaman</button>
             </div>
         </div>
 
         <!-- Step 3: Budget -->
         <div id="step3" class="space-y-6 hidden animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Bütçeniz Var?</h2>
+            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Bütçenİz Var?</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <button type="button" onclick="selectOption(3, 'budget', 'High')" class="swiss-toggle w-full">Yüksek Bütçe</button>
                 <button type="button" onclick="selectOption(3, 'budget', 'Low')" class="swiss-toggle w-full">Düşük Bütçe</button>
@@ -130,17 +130,17 @@
     <script>
         // The Decision Matrix (Çıktılar Türkçeye çevrildi)
         const decisionMatrix = {
-            "High-Short-High": "Gurme Sandviç",
+            "High-Short-High": "Gurme Sandvİç",
             "High-Short-Low": "Hazır Noodle",
-            "High-Enough-High": "Biftek",
+            "High-Enough-High": "Bİftek",
             "High-Enough-Low": "Makarna",
             "Medium-Short-High": "Dürüm",
             "Medium-Short-Low": "Tost",
-            "Medium-Enough-High": "Tavuk Yemeği",
+            "Medium-Enough-High": "Tavuk Yemeğİ",
             "Medium-Enough-Low": "Çorba",
-            "Low-Short-High": "Smoothie",
+            "Low-Short-High": "Smoothİe",
             "Low-Short-Low": "Meyve",
-            "Low-Enough-High": "Salata Kasesi",
+            "Low-Enough-High": "Salata Kasesİ",
             "Low-Enough-Low": "Yoğurt"
         };
 
