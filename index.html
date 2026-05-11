@@ -3,218 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What's for Dinner?</title>
-    <!-- Tailwind CSS for rapid styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter for that clean, Swiss-style sans-serif look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <title>Bornova Venue Recommender</title>
     <style>
-        /* Custom Swiss Style Enhancements */
+        /* === CSS Variables & Reset === */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --success-color: #10b981;
+            --radius: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f4f4; /* Off-white for slight contrast with white containers */
-            color: #000;
-        }
-
-        /* Hide radio buttons natively, we will style their associated labels */
-        input[type="radio"] {
-            display: none;
-        }
-
-        /* Styling the label as a stark, clickable block */
-        .swiss-toggle {
-            display: block;
-            border: 3px solid #000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #c7d2fe 0%, #fbcfe8 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.5;
             padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* === Layout & Typography === */
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin-top: 2rem;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        header {
             text-align: center;
-            font-weight: 700;
-            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 1.85rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* === Form Styles === */
+        .form-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: var(--text-main);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem top 50%;
+            background-size: 0.65rem auto;
             cursor: pointer;
             transition: all 0.2s ease;
-            background-color: #fff;
         }
 
-        .swiss-toggle:hover {
-            background-color: #e5e5e5;
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
         }
 
-        /* When the hidden radio is checked, invert the colors of the adjacent label */
-        input[type="radio"]:checked + .swiss-toggle {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .swiss-button {
-            border: none;
-            background-color: #e60000; /* Strong primary red */
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #8b5cf6 100%);
             color: white;
-            transition: background-color 0.2s ease;
+            border: none;
+            padding: 1.15rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
         }
 
-        .swiss-button:hover {
-            background-color: #b30000;
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
         }
 
-        .swiss-border-bottom {
-            border-bottom: 4px solid #000;
+        /* === Results Section === */
+        #results-container {
+            display: none; 
+            text-align: center;
         }
 
-        /* Adım geçişleri için ufak bir animasyon */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .result-badge {
+            display: inline-block;
+            background: var(--success-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
         }
-        .animate-fade-in {
-            animation: fadeIn 0.4s ease forwards;
+
+        .venue-card {
+            background: #ffffff;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.15);
+        }
+
+        .venue-name {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .reset-btn {
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 2px solid var(--border-color);
+            padding: 0.85rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background-color: var(--bg-color);
+            color: var(--text-main);
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 md:p-8">
+<body>
 
-    <main class="w-full max-w-4xl bg-white p-6 md:p-12 border-4 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] relative">
-        
-        <!-- Geri Butonu -->
-        <button id="backBtn" onclick="goBack()" class="hidden absolute top-6 left-6 md:top-12 md:left-12 border-2 border-black bg-white text-black hover:bg-black hover:text-white px-3 py-1.5 font-bold uppercase tracking-tight text-xs md:text-sm flex items-center gap-1 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Gerİ
-        </button>
+    <main class="container">
+        <!-- The Quiz Interface -->
+        <div id="quiz-view">
+            <header>
+                <h1>Bornova Campus Guide 🎓✨</h1>
+                <p class="subtitle">Answer these 5 questions to find your perfect spot.</p>
+            </header>
 
-        <!-- Header -->
-        <header class="mt-16 mb-12 swiss-border-bottom pb-6">
-            <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
-                Akşam<br>Yemeğİnde<br><span class="text-[#e60000]">Ne Var?</span>
-            </h1>
-            <p class="mt-6 text-xl md:text-2xl font-normal text-gray-600 tracking-wide">
-                Size en uygun yemeği bulalım!
-            </p>
-        </header>   
+            <form id="recommendation-form" class="form-grid">
+                <div class="form-group">
+                    <label for="goal">🎯 1. Primary Goal</label>
+                    <select id="goal" required>
+                        <option value="" disabled selected>What's your goal?</option>
+                        <option value="quick_bite">🥪 Quick bite</option>
+                        <option value="study">📚 Study (Outlets/Quiet)</option>
+                        <option value="socialize">🗣️ Socialize</option>
+                    </select>
+                </div>
 
-        <!-- Step 1: Hunger Level -->
-        <div id="step1" class="space-y-6 animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Açlık Sevİyenİz Nedİr?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button type="button" onclick="selectOption(1, 'hunger', 'High')" class="swiss-toggle w-full">Yüksek Açlık</button>
-                <button type="button" onclick="selectOption(1, 'hunger', 'Medium')" class="swiss-toggle w-full">Orta Açlık</button>
-                <button type="button" onclick="selectOption(1, 'hunger', 'Low')" class="swiss-toggle w-full">Düşük Açlık</button>
-            </div>
+                <div class="form-group">
+                    <label for="diet">🥗 2. Dietary Preference</label>
+                    <select id="diet" required>
+                        <option value="" disabled selected>Select dietary need...</option>
+                        <option value="none">🍔 Doesn't matter</option>
+                        <option value="vegetarian">🧀 Vegetarian</option>
+                        <option value="vegan">🌱 Vegan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">⏱️ 3. Available Time</label>
+                    <select id="time" required>
+                        <option value="" disabled selected>How much time do you have?</option>
+                        <option value="short">⚡ Less than 45 mins</option>
+                        <option value="long">🛋️ 45+ mins</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget">💸 4. Budget</label>
+                    <select id="budget" required>
+                        <option value="" disabled selected>Select your budget...</option>
+                        <option value="low">🟢 Low (₺0 - ₺150)</option>
+                        <option value="high">🔴 Medium/High (₺150+)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wait">⏳ 5. Wait Tolerance</label>
+                    <select id="wait" required>
+                        <option value="" disabled selected>How long can you wait?</option>
+                        <option value="impatient">🚀 Need food fast (<10 mins)</option>
+                        <option value="patient">🧘 Don't mind waiting</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Find My Spot ✨</button>
+            </form>
         </div>
 
-        <!-- Step 2: Time Available -->
-        <div id="step2" class="space-y-6 hidden animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Zamanınız Var?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button type="button" onclick="selectOption(2, 'time', 'Enough')" class="swiss-toggle w-full">Yeterlİ Zaman</button>
-                <button type="button" onclick="selectOption(2, 'time', 'Short')" class="swiss-toggle w-full">Kısıtlı Zaman</button>
-            </div>
+        <!-- The Result Interface -->
+        <div id="results-container">
+            <span class="result-badge">Perfect Match!</span>
+            <div id="result-content"></div>
+            <button class="reset-btn" id="reset-btn">🔄 Search Again</button>
         </div>
-
-        <!-- Step 3: Budget -->
-        <div id="step3" class="space-y-6 hidden animate-fade-in">
-            <h2 class="text-2xl font-bold uppercase mb-4 tracking-tight">Ne Kadar Bütçenİz Var?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button type="button" onclick="selectOption(3, 'budget', 'High')" class="swiss-toggle w-full">Yüksek Bütçe</button>
-                <button type="button" onclick="selectOption(3, 'budget', 'Low')" class="swiss-toggle w-full">Düşük Bütçe</button>
-            </div>
-        </div>
-
-        <!-- Result Area (Step 4) -->
-        <div id="step4" class="hidden animate-fade-in mt-4 pt-4 border-t-4 border-black swiss-border-bottom">
-            <h2 class="text-xl font-bold uppercase mb-2 tracking-tight text-gray-500">İşte Sİzİn İçİn Önerİmİz!</h2>
-            <div id="resultText" class="text-5xl md:text-7xl font-black uppercase tracking-normal text-[#e60000] leading-none break-words mb-8 ![font-variant-ligatures:none]">
-                <!-- Result will be injected here -->
-            </div>
-            <button type="button" onclick="restart()" class="swiss-toggle bg-black text-white hover:bg-gray-800 w-full py-4 text-2xl border-black">
-                Baştan Başla
-            </button>
-        </div>
-
     </main>
 
     <script>
-        // The Decision Matrix (Çıktılar Türkçeye çevrildi ve güncellendi)
-        const decisionMatrix = {
-            "High-Short-High": "Gurme Sandvİç",
-            "High-Short-Low": "Hazır Noodle",
-            "High-Enough-High": "Bİftek",
-            "High-Enough-Low": "Menemen",
-            "Medium-Short-High": "Dürüm",
-            "Medium-Short-Low": "Tost",
-            "Medium-Enough-High": "Tavuk Yemeğİ",
-            "Medium-Enough-Low": "Çorba",
-            "Low-Short-High": "Smoothİe",
-            "Low-Short-Low": "Meyve",
-            "Low-Enough-High": "Salata Kasesİ",
-            "Low-Enough-Low": "Yoğurt"
-        };
+        const form = document.getElementById('recommendation-form');
+        const quizView = document.getElementById('quiz-view');
+        const resultsContainer = document.getElementById('results-container');
+        const resultContent = document.getElementById('result-content');
+        const resetBtn = document.getElementById('reset-btn');
 
-        // Kullanıcı cevaplarını tutacağımız obje
-        let answers = { hunger: '', time: '', budget: '' };
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // Hangi adımda olduğumuzu takip etmek için değişken
-        let currentStep = 1;
+            // 1. Collect Variables
+            const goal = document.getElementById('goal').value;
+            const diet = document.getElementById('diet').value;
+            const time = document.getElementById('time').value;
+            const budget = document.getElementById('budget').value;
+            const wait = document.getElementById('wait').value;
 
-        function selectOption(step, category, value) {
-            // Cevabı kaydet
-            answers[category] = value;
+            let recommendation = "";
 
-            // Mevcut adımı gizle
-            document.getElementById(`step${step}`).classList.add('hidden');
+            // ====================================================================
+            // THE EXTENDED LOGIC MATRIX (40+ Strict Logic Strings)
+            // Evaluates almost every possible intersection for maximum accuracy.
+            // ====================================================================
 
-            // Bir sonraki adımı göster veya sonucu hesapla
-            if (step < 3) {
-                currentStep = step + 1;
-                document.getElementById(`step${currentStep}`).classList.remove('hidden');
-            } else {
-                currentStep = 4;
-                showResult();
+            // CATEGORY A: QUICK BITE (Hızlı Atıştırmalık)
+            if (goal === "quick_bite") {
+                if (diet === "none") {
+                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Sokak Dönercisi Kenan Usta";
+                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Meşhur Bornova Kokoreççisi";
+                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Kırkpınar Esnaf Lokantası";
+                    else if (budget === "low" && time === "long" && wait === "patient") recommendation = "Kardeşler Pide Salonu";
+                    else if (budget === "high" && time === "short" && wait === "impatient") recommendation = "Subway (Küçükpark)";
+                    else if (budget === "high" && time === "short" && wait === "patient") recommendation = "Burger King (Square)";
+                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Afilli Burger (Yaşar Uni)";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Pizza Locale Bornova";
+                } 
+                else if (diet === "vegetarian") {
+                    if (budget === "low" && time === "short") recommendation = "Çiğköfteci Sait";
+                    else if (budget === "low" && time === "long") recommendation = "Küçükpark Kumpircisi";
+                    else if (budget === "high" && time === "short") recommendation = "Green Salads (Büyükpark)";
+                    else if (budget === "high" && time === "long") recommendation = "Makarna Atölyesi Bornova";
+                } 
+                else if (diet === "vegan") {
+                    if (budget === "low" && time === "short") recommendation = "Vegan Kantin (Grab & Go)";
+                    else if (budget === "low" && time === "long") recommendation = "Falafelci Ege";
+                    else if (budget === "high" && time === "short") recommendation = "Starbucks (Vegan Sandwich)";
+                    else if (budget === "high" && time === "long") recommendation = "Ege Vegan Cafe";
+                }
             }
-            updateBackButton();
-        }
 
-        function showResult() {
-            // Matrix için anahtar oluştur
-            const lookupKey = `${answers.hunger}-${answers.time}-${answers.budget}`;
-            const recommendation = decisionMatrix[lookupKey];
-
-            // Sonucu göster
-            if (recommendation) {
-                document.getElementById('resultText').innerText = recommendation;
-                document.getElementById('step4').classList.remove('hidden');
+            // CATEGORY B: STUDY (Ders Çalışma)
+            else if (goal === "study") {
+                if (diet === "none") {
+                    if (budget === "low" && time === "short") recommendation = "Ege Campus Benches";
+                    else if (budget === "low" && time === "long" && wait === "patient") recommendation = "Bornova Kütüphane Kafe";
+                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Ege University Central Library";
+                    else if (budget === "high" && time === "short") recommendation = "Coffee Manifesto (Takeaway)";
+                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Espressolab (Küçükpark)";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Starbucks (Büyükpark)";
+                }
+                else if (diet === "vegetarian") {
+                    if (budget === "low") recommendation = "Ege Library Canteen";
+                    else if (budget === "high" && time === "short") recommendation = "Arabica Coffee (Desserts)";
+                    else if (budget === "high" && time === "long") recommendation = "Mackbear Coffee Bornova";
+                }
+                else if (diet === "vegan") {
+                    if (budget === "low") recommendation = "Yaşar Uni Library (Guest Access)";
+                    else if (budget === "high" && time === "short") recommendation = "Coffee Manifesto (Plant-Based Milk)";
+                    else if (budget === "high" && time === "long") recommendation = "Caffe Nero (Büyükpark)";
+                }
             }
-        }
 
-        function goBack() {
-            if (currentStep > 1) {
-                // Mevcut adımı gizle
-                document.getElementById(`step${currentStep}`).classList.add('hidden');
-                // Önceki adıma dön
-                currentStep--;
-                document.getElementById(`step${currentStep}`).classList.remove('hidden');
-                
-                updateBackButton();
+            // CATEGORY C: SOCIALIZE (Sosyalleşme)
+            else if (goal === "socialize") {
+                if (diet === "none") {
+                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Küçükpark Meydan Çaycısı";
+                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Tarihi Bornova Kahvesi";
+                    else if (budget === "low" && time === "long") recommendation = "Okey & Backgammon Cafe (Küçükpark)";
+                    else if (budget === "high" && time === "short") recommendation = "Waffle'cı Akın";
+                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Afilli Burger (Dine-in)";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Leman Kültür Bornova";
+                }
+                else if (diet === "vegetarian") {
+                    if (budget === "low" && time === "short") recommendation = "Çaykur Çadırı";
+                    else if (budget === "low" && time === "long") recommendation = "Ege Teras Kafe";
+                    else if (budget === "high" && time === "short") recommendation = "Sir Winston Cafe";
+                    else if (budget === "high" && time === "long") recommendation = "Leman Kültür Bornova (Veg Menu)";
+                }
+                else if (diet === "vegan") {
+                    if (budget === "low") recommendation = "Campus Grass (Picnic)";
+                    else if (budget === "high" && time === "short") recommendation = "Starbucks (Büyükpark)";
+                    else if (budget === "high" && time === "long") recommendation = "Roux Cafe Bornova";
+                }
             }
-        }
 
-        function updateBackButton() {
-            const backBtn = document.getElementById('backBtn');
-            // 2. ve 3. adımlarda geri butonunu göster, 1. ve 4. (sonuç) adımda gizle
-            if (currentStep > 1 && currentStep < 4) {
-                backBtn.classList.remove('hidden');
-            } else {
-                backBtn.classList.add('hidden');
+            // 42. DEFAULT FALLBACK (Extremely rare due to the matrix density above)
+            if (recommendation === "") {
+                recommendation = "Espressolab (Küçükpark)";
             }
-        }
 
-        function restart() {
-            // Değerleri sıfırla ve başa dön
-            answers = { hunger: '', time: '', budget: '' };
-            currentStep = 1;
-            document.getElementById('step4').classList.add('hidden');
-            document.getElementById('step1').classList.remove('hidden');
-            updateBackButton();
-        }
+            // ====================================================================
+
+            // 2. Display the Result Output
+            quizView.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultContent.innerHTML = `
+                <div class="venue-card">
+                    <span class="venue-name">📍 ${recommendation}</span>
+                    <p style="color: #6b7280; font-size: 1rem;">Based on your specific answers, this is the best choice for you right now.</p>
+                </div>
+            `;
+        });
+
+        resetBtn.addEventListener('click', () => {
+            resultsContainer.style.display = 'none';
+            quizView.style.display = 'block';
+            form.reset();
+            window.scrollTo(0, 0);
+        });
     </script>
 </body>
 </html>
