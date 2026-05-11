@@ -187,15 +187,15 @@
         <!-- Input Quiz View -->
         <div id="quiz-view">
             <header>
-                <h1>Bornova Campus Guide 🎓✨</h1>
-                <p class="subtitle">Answer these 5 questions to find your perfect spot near Yaşar Uni.</p>
+                <h1>Bornova Venue Guide 🎓✨</h1>
+                <p class="subtitle">Find your perfect spot in Bornova (Küçükpark, Büyükpark, and more).</p>
             </header>
 
             <form id="recommendation-form" class="form-grid">
                 <div class="form-group">
                     <label for="goal">🎯 1. Primary Goal</label>
                     <select id="goal" required>
-                        <option value="" disabled selected>What's your goal?</option>
+                        <option value="" disabled selected>Select your goal...</option>
                         <option value="quick_bite">🥪 Quick bite</option>
                         <option value="study">📚 Study (Outlets/Quiet)</option>
                         <option value="socialize">🗣️ Socialize</option>
@@ -271,30 +271,30 @@
             let recommendation = "";
 
             // ====================================================================
-            // REAL VENUES LOGIC MATRIX: Optimized for Yaşar University (Bölge Metro)
+            // EXTENDED LOGIC MATRIX: Bornova-Wide (Real Verified Venues)
             // ====================================================================
 
             // CATEGORY A: QUICK BITE
             if (goal === "quick_bite") {
                 if (diet === "none") {
-                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Üniversite 2 Unlu Mamülleri";
-                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Maydonoz Döner (Bölge Metro)";
-                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Dönerci Orhan (Yaşar Passage)";
+                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Üniversite 2 Unlu Mamülleri (Bölge Metro)";
+                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Küçükpark Pilavcısı";
+                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Maydonoz Döner (Bölge Metro)";
                     else if (budget === "low" && time === "long" && wait === "patient") recommendation = "Dürümcü Esnaf (Sanayi St.)";
                     else if (budget === "high" && time === "short" && wait === "impatient") recommendation = "Coffy (Bölge Metro)";
-                    else if (budget === "high" && time === "short" && wait === "patient") recommendation = "Dominos Pizza (Yaşar Uni Area)";
+                    else if (budget === "high" && time === "short" && wait === "patient") recommendation = "Subway (Küçükpark)";
                     else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Afilli Burger (Yaşar Passage)";
-                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Chicken Express (Bölge Metro)";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Pizza Locale (Küçükpark)";
                 } 
                 else if (diet === "vegetarian") {
-                    if (budget === "low" && time === "short") recommendation = "Üniversite 2 Unlu Mamülleri (Pastries)";
-                    else if (budget === "low" && time === "long") recommendation = "Meşhur Adıyaman Çiğköftecisi Ömer Aybak";
+                    if (budget === "low" && time === "short") recommendation = "Oses Çiğköfte (Bölge Metro)";
+                    else if (budget === "low" && time === "long") recommendation = "Kumpirci Bilal (Küçükpark)";
                     else if (budget === "high" && time === "short") recommendation = "Veroni Coffee Roastery (Sandwich)";
                     else if (budget === "high" && time === "long") recommendation = "Badella Bornova (Veggie Pasta)";
                 } 
                 else if (diet === "vegan") {
                     if (budget === "low" && time === "short") recommendation = "Yaşar Uni Canteen (Vegan Snacks)";
-                    else if (budget === "low" && time === "long") recommendation = "Meşhur Adıyaman Çiğköftecisi (No Sauce)";
+                    else if (budget === "low" && time === "long") recommendation = "Falafelci Ege (Küçükpark)";
                     else if (budget === "high" && time === "short") recommendation = "Coffy (Plant-based Options)";
                     else if (budget === "high" && time === "long") recommendation = "Caffe Nero (Vegan Sandwiches)";
                 }
@@ -305,14 +305,14 @@
                 if (diet === "none") {
                     if (budget === "low" && time === "short") recommendation = "Yaşar Uni Open Air Benches";
                     else if (budget === "low" && time === "long" && wait === "patient") recommendation = "Yaşar Uni Library";
-                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Tenefüs Cafe (Yaşar Uni)";
-                    else if (budget === "high" && time === "short") recommendation = "Veroni Coffee Roastery (Takeaway)";
-                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Tuck Coffee";
-                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Hey Joe Coffee";
+                    else if (budget === "low" && time === "long" && wait === "impatient") recommendation = "Tenefüs Cafe";
+                    else if (budget === "high" && time === "short") recommendation = "Starbucks (Büyükpark - Takeaway)";
+                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Espressolab (Küçükpark)";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Tuck Coffee (Bölge Metro)";
                 }
                 else if (diet === "vegetarian") {
                     if (budget === "low") recommendation = "Yaşar Uni Library";
-                    else if (budget === "high" && time === "short") recommendation = "Hey Joe Coffee";
+                    else if (budget === "high" && time === "short") recommendation = "Hey Joe Coffee (Sanayi St.)";
                     else if (budget === "high" && time === "long") recommendation = "Tuck Coffee (Study Area)";
                 }
                 else if (diet === "vegan") {
@@ -325,29 +325,29 @@
             // CATEGORY C: SOCIALIZE
             else if (goal === "socialize") {
                 if (diet === "none") {
-                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Mavi Yol Cafe";
-                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Yaşar Campus Courtyard";
-                    else if (budget === "low" && time === "long") recommendation = "Çolo Cafe & Bar";
-                    else if (budget === "high" && time === "short") recommendation = "Soulmate Cafe";
-                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Cochem Coffee";
-                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Cocksta";
+                    if (budget === "low" && time === "short" && wait === "impatient") recommendation = "Mavi Yol Cafe (Sanayi St.)";
+                    else if (budget === "low" && time === "short" && wait === "patient") recommendation = "Çınar Evi (Büyükpark)";
+                    else if (budget === "low" && time === "long") recommendation = "Tenefüs Cafe (Campus Area)";
+                    else if (budget === "high" && time === "short") recommendation = "Soulmate Coffee (Sanayi St.)";
+                    else if (budget === "high" && time === "long" && wait === "impatient") recommendation = "Sir Winston";
+                    else if (budget === "high" && time === "long" && wait === "patient") recommendation = "Cocksta (Sanayi St.)";
                 }
                 else if (diet === "vegetarian") {
-                    if (budget === "low" && time === "short") recommendation = "Mavi Yol Cafe";
-                    else if (budget === "low" && time === "long") recommendation = "Yaşar Campus Courtyard";
-                    else if (budget === "high" && time === "short") recommendation = "Tuck Coffee";
-                    else if (budget === "high" && time === "long") recommendation = "Cocksta";
+                    if (budget === "low" && time === "short") recommendation = "Kahve Madeni (Bornova)";
+                    else if (budget === "low" && time === "long") recommendation = "Tenefüs Cafe";
+                    else if (budget === "high" && time === "short") recommendation = "Tuck Coffee (Bölge Metro)";
+                    else if (budget === "high" && time === "long") recommendation = "Sir Winston";
                 }
                 else if (diet === "vegan") {
-                    if (budget === "low") recommendation = "Yaşar Uni Campus Garden (Picnic)";
-                    else if (budget === "high" && time === "short") recommendation = "Caffe Nero";
-                    else if (budget === "high" && time === "long") recommendation = "Soulmate Cafe";
+                    if (budget === "low") recommendation = "Bornova Büyükpark (Green Area)";
+                    else if (budget === "high" && time === "short") recommendation = "Poka Coffee Roasters (Near Büyükpark)";
+                    else if (budget === "high" && time === "long") recommendation = "Caffe Nero (Büyükpark)";
                 }
             }
 
-            // Safety Fallback
+            // Safety Fallback (Defensive Programming)
             if (recommendation === "") {
-                recommendation = "Tuck Coffee";
+                recommendation = "Espressolab (Küçükpark)";
             }
 
             // Dynamic Farewell Messages based on Goal
@@ -367,7 +367,7 @@
             resultContent.innerHTML = `
                 <div class="venue-card">
                     <span class="venue-name">📍 ${recommendation}</span>
-                    <p style="color: #6b7280; font-size: 1rem; margin-bottom: 1rem;">Based on your specific answers, this is the best choice for you right now.</p>
+                    <p style="color: #6b7280; font-size: 1rem; margin-bottom: 1rem;">Based on your choices, this is the most accurate real spot in Bornova for you.</p>
                     <p style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem;">${farewellMessage}</p>
                 </div>
             `;
