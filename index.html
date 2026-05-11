@@ -353,6 +353,16 @@
 
             // ====================================================================
 
+            // Generate a dynamic farewell message based on the goal
+            let farewellMessage = "Enjoy your time! ✨";
+            if (goal === "quick_bite") {
+                farewellMessage = "Bon appétit! 🍔";
+            } else if (goal === "study") {
+                farewellMessage = "Have a productive study session! 📚";
+            } else if (goal === "socialize") {
+                farewellMessage = "Have a great time! 🥳";
+            }
+
             // 2. Display the Result Output
             quizView.style.display = 'none';
             resultsContainer.style.display = 'block';
@@ -360,7 +370,8 @@
             resultContent.innerHTML = `
                 <div class="venue-card">
                     <span class="venue-name">📍 ${recommendation}</span>
-                    <p style="color: #6b7280; font-size: 1rem;">Based on your specific answers, this is the best choice for you right now.</p>
+                    <p style="color: #6b7280; font-size: 1rem; margin-bottom: 1rem;">Based on your specific answers, this is the best choice for you right now.</p>
+                    <p style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem;">${farewellMessage}</p>
                 </div>
             `;
         });
